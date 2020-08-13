@@ -9,7 +9,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <head>
 <title>KESA Grocery </title>
 <!-- for-mobile-apps -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=1024">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Grocery Store Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
@@ -49,7 +49,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<a href="products.html">Today's special Offers !</a>
 		</div>
 		<div class="w3l_search">
-			<form action="#" method="post">
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 				<input type="text" name="Product" value="Search a product..." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search a product...';}" required="">
 				<input type="submit" value=" ">
 			</form>
@@ -192,7 +192,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div>	
 						</li>
 						<li><a href="bread.html">Bread & Bakery</a></li>
-						<li><a href="electronic.html">Electronics</a></li>
+						 
 					</ul>
 				 </div><!-- /.navbar-collapse -->
 			</nav>
@@ -476,16 +476,27 @@ $(document).ready(function(){
 			});
 	</script>
 <!-- //here ends scrolling icon -->
-<script src="js/minicart.min.js"></script>
-<script>
-	// Mini Cart
-	paypal.minicart.render({
-		action: '#'
-	});
+ <script src="./dist/minicart.js"></script>
+	<script>
+		paypal.minicart.render();
 
-	if (~window.location.search.indexOf('reset=true')) {
-		paypal.minicart.reset();
-	}
-</script>
+		paypal.minicart.cart.on('checkout', function (evt) {
+			var items = this.items(),
+				len = items.length,
+				total = 0,
+				i;
+
+			// Count the number of each item in the cart
+			for (i = 0; i < len; i++) {
+				total += items[i].get('quantity');
+			}
+
+			if (total < 2) {
+				alert('The minimum order quantity is 2. Please add more to your shopping cart before checking out');
+				evt.preventDefault();
+			}
+		});
+
+	</script>
 </body>
 </html>
